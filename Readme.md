@@ -21,4 +21,11 @@ ms-vscode.cpptools
 espressif.esp-idf-extension
 
 https://raw.githubusercontent.com/Azure/dps-keygen/master/bin/windows/dps_cstr.zip
+
+C:\r\ldi-workshop\02-firmware\azure-iot-sdk-c>git submodule update --init
+C:\r\ldi-workshop\02-firmware\azure-iot-sdk-c\c-utility>git submodule update --init
+
 ```
+
+![git submodule minimum](./03-tools/images/submodules.jpg "Submodules")
+
