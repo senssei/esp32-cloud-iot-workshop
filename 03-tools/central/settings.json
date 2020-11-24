@@ -1,0 +1,23 @@
+{
+  "@id": "dtmi:settings:esp32bx;1",
+  "@type": "Interface",
+  "contents": [
+    {
+      "@id": "dtmi:settings:esp32bx:desiredmaxSpeed;1",
+      "@type": "Property",
+      "displayName": {
+        "en": "desired_maxSpeed"
+      },
+      "name": "desiredmaxSpeed",
+      "schema": "integer",
+      "writable": true
+    }
+  ],
+  "displayName": {
+    "en": "settings"
+  },
+  "@context": [
+    "dtmi:iotcentral:context;2",
+    "dtmi:dtdl:context;2"
+  ]
+}

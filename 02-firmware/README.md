@@ -1,103 +1,116 @@
-# Device Twin and Direct Method Example
+# ESP Azure IoT SDK
 
-This example demonstrates Device twin and Direct method features of Azure IoT.
+## Table of Contents
 
+- [Introduction](#introduction)
+- [Getting Started](#get-started)
+- [Creating an Azure IoT Device](#create-device)
+- [Monitoring Results](#monitoring)
+- [Troubleshooting](#troubleshooting)
 
-## Device Twin
+## Introduction
 
-In this example, we use car object with desired and reported properties as described in the JSON blob below.
+<a name="introduction"></a>
 
-```
-Car: {
-	"lastOilChangeDate": "<value>",            \\ reported property
-		"changeOilReminder": "<value>",	           \\ desired property
-		"maker": {                                 \\ reported property 
-			"makerName": "<value>",
-				"style": "<value>",
-				"year": <value>
-		},
-		"state": {                                 \\ reported property
-			"reported_maxSpeed": <value>,
-			"softwareVersion": <value>,
-			"vanityPlate": "<value>"
-		},
-		"settings": {                              \\ desired property
-			"desired_maxSpeed": <value>,
-			"location": {
-				"longitude": <value>,
-				"latitude": <value>
-			},
-		},
-}
-```	
+The ESP Azure IoT SDK is based on [Azure IoT C SDK](https://github.com/Azure/azure-iot-sdk-c) and enables users to connect their ESP32 based devices to the Azure IoT hub. It provides some examples which can help understand most common use cases.
 
+## Getting Started
 
-### Set Device Twin Desired Properties
+<a name="get-started"></a>
 
-- To execute Device Twin, an IoT device will be required. We will use the same Azure IoT device created using the steps defined in top level [README](../../README.md#creating-an-azure-iot-device).
-- Set Device Twin desired properties by navigating to `Azure Portal` -> `your IoT Hub` -> `IoT Devices` -> `your IoT device` -> `Device Twin` and paste the following JSON blob under `desired` property. 
+### Hardware
 
-```
-    "desired": {
-        // paste from here..
+You will basically just need a development host and an [ESP32 development board](https://www.espressif.com/en/products/hardware/development-boards) to get started.
 
-		"changeOilReminder": "LOW_FUEL",
-			"settings": {
-				"desired_maxSpeed": 120,
-				"location": {
-					"longitude": 71,
-					"latitude": 25 
-				}
-			},
+### Development Host Setup
 
-		// desired continues..
-```
+This project is to be used with Espressif's IoT Development Framework, [ESP IDF](https://github.com/espressif/esp-idf). Follow these steps to get started:
 
-## Device Configuration
-- For this demo we will use the same Azure IoT device created using the steps defined in top level [README](../../README.md#create_device). Copy the connection string for the device from the output of this command:
+- Setup ESP IDF development environment by following the steps [here](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html).
+- In a separate folder, clone the esp-azure project as follows (please note the --recursive option, which is required to clone the various git submodules required by esp-azure)
 
 ``` bash
-$ az iot hub device-identity show-connection-string -n [IoTHub Name] -d [Device ID]
+$ git clone --recursive https://github.com/espressif/esp-azure.git
 ```
 
-Sample output:
-```
-{
-  "connectionString": "HostName=<azure-iot-hub-name>.azure-devices.net;DeviceId=<azure-iot-device-id>;SharedAccessKey=<base64-encoded-shared-access-key>"
-}
-```
-> Note that the double quotes at both the ends of the string are not part of the connection string. So, for the above, just copy `HostName=<azure-iot-hub-name>.azure-devices.net;DeviceId=<azure-iot-device-id>;SharedAccessKey=<base64-encoded-shared-access-key>`
-While changing the value, please ensure that you have completely cleared the older value, before pasting the new one. If you face any run time connection issues, double check this value.
+> Note that if you ever change the branch or the git head of either esp-idf or esp-azure, ensure that all the submodules of the git repo are in sync by executing `git submodule update --init --recursive`
 
-- Execute `make menuconfig`. In the menu, go to `Example Configuration` and configure `WiFi SSID` and `WiFi Password` so that the device can connect to the appropriate Wi-Fi network on boot up. Set `IOT Hub Device Connection String` with the string copied above
+##
 
+### Setting up Azure IoT Hub
 
-## Trying out the example
+- Create an Azure IoT Hub by following the documentation [here](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-create-through-portal).
 
-Run the following command to flash the example and monitor the output
-`$ make -j8 flash monitor`
+> **Note: When selecting the "Pricing and scale tier", there is also an option to select , F1: Free tier, which should be sufficient for basic evaluation.**
 
-After running the application, you can check updated properties by navigating to `Azure Portal` -> `your IoT Hub` -> `IoT devices` -> `your IoT device` -> `Device Twin`
-
-If you change the above set desired field and click on "Save", they will be mirrored on to your ESP Monitor.
-
-### Direct Method Invocation
-
-
-Navigate to `Azure Portal` -> `your IoT Hub` -> `IoT devices` -> `your IoT device` -> `Direct Method`
-
-Set the `Method Name` as `getCarVIN` and add some payload. Consider an example payload as below:
+- Copy the IoT Hub `Connection string - primary key` from the Azure IoT Hub. This will be required later. The screenshot below will help you locate it.
+![](doc/_static/connection_string.png)
+- Connection string - primary key sample:
 
 ```
-{ "message": "Hello World" }
+HostName=<azure-iot-hub-name>.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=<base64-encoded-access-key>
 ```
 
-On invoking the method, the invocation request will be sent to the IoT device, which in turn will respond with a payload like below:
+### Setting up Azure CLI
+
+- Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+- From your terminal, execute the `az` command to verify that the installation was successful. Output will be like this:
 
 ```
-{ "Response": "1HGCM82633A004352" }
+$ az
+
+Welcome to Azure CLI!
+---------------------
+Use `az -h` to see available commands or go to https://aka.ms/cli.
+...
 ```
 
+- Install the Azure IoT CLI extension using
+
+`$ az extension add --name azure-cli-iot-ext`
+
+After that, you should be able to use azure CLI to manage your iot-device. A list of useful Azure CLIs can be found [here](doc/azure_cli_iot_hub.md) 
+
+## Creating an Azure IoT Device
+
+<a name="create-device"></a>
+
+- Login to Azure CLI using `$ az login`
+- Create a new device using `$ az iot hub device-identity create -n [IoTHub Name] -d [Device ID]`
+- Get connection string for your device using `$ az iot hub device-identity show-connection-string -n [IoTHub Name] -d [Device ID]`
+- Device connection string sample:
+
+```
+HostName=<azure-iot-hub-name>.azure-devices.net;DeviceId=<azure-iot-device-id>;SharedAccessKey=<base64-encoded-shared-access-key>
+```
+
+- This will be required in the examples
 
 
 
+## Monitoring Results
+
+<a name="monitoring"></a>
+
+To see various events and the data being exchanged between the device and IoT hub from your command line, run the following command:
+
+ `$ az iot hub monitor-events -n [IoTHub Name] --login '[Connection string - primary key]'`
+ 
+ > Note the single quotes for the connection string. Without them, the command wont work as desired.
+ 
+To monitor activity on your ESP device, run:
+
+ `$ make monitor`
+
+## Troubleshooting
+<a name="troubleshooting"></a>
+
+1. Some common problems can be fixed by disabling the firewall.
+
+2. You can try with the followings, if your build fails:
+	- `$ git submodule update --init --recursive`
+	- Check the compiler version and verify that it is the correct one for your ESP IDF version.
+	- Check if the IDF_PATH is set correctly
+	- Clean the project with `make clean` and if required, using `rm -rf build sdkconfig sdkconfig.old`
+	
+3. Ensure that the device connection string received from Azure IoT Hub are correct.

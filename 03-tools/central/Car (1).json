@@ -1,0 +1,198 @@
+[
+  {
+    "@id": "dtmi:Car:esp3264h;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@id": "dtmi:Car:esp3264h:lastOilChangeDate;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "lastOilChangeDate"
+        },
+        "name": "lastOilChangeDate",
+        "schema": "integer",
+        "writable": false
+      },
+      {
+        "@id": "dtmi:Car:esp3264h:getCarVIN;1",
+        "@type": "Command",
+        "commandType": "synchronous",
+        "displayName": {
+          "en": "getCarVIN"
+        },
+        "name": "getCarVIN",
+        "request": {
+          "@id": "dtmi:Car:esp3264h:getCarVIN:__request:message;1",
+          "@type": "CommandPayload",
+          "displayName": {
+            "en": "message"
+          },
+          "name": "message",
+          "schema": "string"
+        },
+        "response": {
+          "@id": "dtmi:Car:esp3264h:getCarVIN:__response:Response;1",
+          "@type": "CommandPayload",
+          "displayName": {
+            "en": "Response"
+          },
+          "name": "Response",
+          "schema": "string"
+        }
+      },
+      {
+        "@id": "dtmi:Car:esp3264h:state;1",
+        "@type": "Component",
+        "displayName": {
+          "en": "State"
+        },
+        "name": "state",
+        "schema": "dtmi:state:state;1"
+      },
+      {
+        "@id": "dtmi:Car:esp3264h:settings;1",
+        "@type": "Component",
+        "displayName": {
+          "en": "Settings"
+        },
+        "name": "settings",
+        "schema": "dtmi:settings:esp32bx;1"
+      },
+      {
+        "@id": "dtmi:Car:esp3264h:maker;1",
+        "@type": "Component",
+        "displayName": {
+          "en": "Maker"
+        },
+        "name": "maker",
+        "schema": "dtmi:maker:maker;1"
+      },
+      {
+        "@id": "dtmi:Car:esp3264h:changeOilReminder;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "changeOilReminder"
+        },
+        "name": "changeOilReminder",
+        "schema": "date",
+        "writable": true
+      }
+    ],
+    "displayName": {
+      "en": "Car"
+    },
+    "@context": [
+      "dtmi:iotcentral:context;2",
+      "dtmi:dtdl:context;2"
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:iotcentral:context;2",
+      "dtmi:dtdl:context;2"
+    ],
+    "@id": "dtmi:state:state;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@id": "dtmi:state:state:softwareVersion;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "softwareVersion"
+        },
+        "name": "softwareVersion",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@id": "dtmi:state:state:vanityPlate;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "vanityPlate"
+        },
+        "name": "vanityPlate",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@id": "dtmi:state:state:reported_maxSpeed;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "reported_maxSpeed"
+        },
+        "name": "reported_maxSpeed",
+        "schema": "integer",
+        "writable": false
+      }
+    ],
+    "displayName": {
+      "en": "state"
+    }
+  },
+  {
+    "@context": [
+      "dtmi:iotcentral:context;2",
+      "dtmi:dtdl:context;2"
+    ],
+    "@id": "dtmi:settings:esp32bx;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@id": "dtmi:settings:esp32bx:desiredmaxSpeed;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "desired_maxSpeed"
+        },
+        "name": "desiredmaxSpeed",
+        "schema": "integer",
+        "writable": true
+      }
+    ],
+    "displayName": {
+      "en": "settings"
+    }
+  },
+  {
+    "@context": [
+      "dtmi:iotcentral:context;2",
+      "dtmi:dtdl:context;2"
+    ],
+    "@id": "dtmi:maker:maker;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@id": "dtmi:maker:maker:makerName;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "makerName"
+        },
+        "name": "makerName",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@id": "dtmi:maker:maker:style;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "style"
+        },
+        "name": "style",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@id": "dtmi:maker:maker:year;1",
+        "@type": "Property",
+        "displayName": {
+          "en": "year"
+        },
+        "name": "year",
+        "schema": "integer",
+        "writable": false
+      }
+    ],
+    "displayName": {
+      "en": "maker"
+    }
+  }
+]

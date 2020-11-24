@@ -1,0 +1,43 @@
+{
+  "@id": "dtmi:maker:maker;1",
+  "@type": "Interface",
+  "contents": [
+    {
+      "@id": "dtmi:maker:maker:makerName;1",
+      "@type": "Property",
+      "displayName": {
+        "en": "makerName"
+      },
+      "name": "makerName",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@id": "dtmi:maker:maker:style;1",
+      "@type": "Property",
+      "displayName": {
+        "en": "style"
+      },
+      "name": "style",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@id": "dtmi:maker:maker:year;1",
+      "@type": "Property",
+      "displayName": {
+        "en": "year"
+      },
+      "name": "year",
+      "schema": "integer",
+      "writable": false
+    }
+  ],
+  "displayName": {
+    "en": "maker"
+  },
+  "@context": [
+    "dtmi:iotcentral:context;2",
+    "dtmi:dtdl:context;2"
+  ]
+}

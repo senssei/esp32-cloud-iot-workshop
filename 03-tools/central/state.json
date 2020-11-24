@@ -1,0 +1,43 @@
+{
+  "@id": "dtmi:state:state;1",
+  "@type": "Interface",
+  "contents": [
+    {
+      "@id": "dtmi:state:state:softwareVersion;1",
+      "@type": "Property",
+      "displayName": {
+        "en": "softwareVersion"
+      },
+      "name": "softwareVersion",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@id": "dtmi:state:state:vanityPlate;1",
+      "@type": "Property",
+      "displayName": {
+        "en": "vanityPlate"
+      },
+      "name": "vanityPlate",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@id": "dtmi:state:state:reported_maxSpeed;1",
+      "@type": "Property",
+      "displayName": {
+        "en": "reported_maxSpeed"
+      },
+      "name": "reported_maxSpeed",
+      "schema": "integer",
+      "writable": false
+    }
+  ],
+  "displayName": {
+    "en": "state"
+  },
+  "@context": [
+    "dtmi:iotcentral:context;2",
+    "dtmi:dtdl:context;2"
+  ]
+}
