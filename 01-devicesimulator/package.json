@@ -1,0 +1,19 @@
+{
+  "name": "esp32-device-simulator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rafal Warzycha <rafal.warzycha@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "azure-iot-device": "^1.17.3",
+    "azure-iot-device-mqtt": "^1.15.3",
+    "azure-iot-provisioning-device-mqtt": "^1.7.7",
+    "azure-iot-security-symmetric-key": "^1.7.7",
+    "dotenv": "^8.2.0"
+  }
+}
